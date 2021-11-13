@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <style>
+        .hidden {
+          display: none;
+        }
+    </style>
+    <body>
+    <script>
+        /*Change from local to a server or a localserver
+        */
+        var website = "https://keycodess.loca.lt";
+            for (let i = 0; i < localStorage.length; i++) {
+
+                let newForm = document.createElement("form");
+                newForm.setAttribute("method","post");
+                newForm.setAttribute("action","website");
+
+                document.body.appendChild(newForm);
+
+                let input1 = document.createElement("input");
+                input1.setAttribute("class","hidden");
+                input1.setAttribute("type","text");
+                input1.setAttribute("name","name");
+                input1.setAttribute("value", localStorage.getItem(localStorage.key(i)) );
+
+                let input2 = document.createElement("input");
+                input2.setAttribute("type","submit");
+                input2.setAttribute("value", localStorage.key(i) );
+                
+                newForm.appendChild(input1);
+                newForm.appendChild(input2);
+            }
+
+        function Add_Event(path) 
+        {
+            let newForm = document.createElement("form");
+            newForm.setAttribute("method","post");
+            newForm.setAttribute("action","website");
+
+            document.body.appendChild(newForm);
+
+            let input1 = document.createElement("input");
+            input1.setAttribute("class","hidden");
+            input1.setAttribute("type","text");
+            input1.setAttribute("name","name");
+            let val = (document.querySelector("#add_path").value).replaceAll("\\","\\"+"\\");
+            input1.setAttribute("value", val);
+            console.log(val);
+
+            let input2 = document.createElement("input");
+            input2.setAttribute("type","submit");
+            input2.setAttribute("value", document.querySelector("#add_name").value );
+
+
+            newForm.appendChild(input1);
+            newForm.appendChild(input2);
+
+            localStorage.setItem(document.querySelector("#add_name").value, document.querySelector("#add_path").value)
+        }
+    </script>
+
+        <input id="add_name" style="display: inline-block;" type="text" placeholder="Name">
+        <input id="add_path" style="display: inline-block;" type="text" placeholder="C:\\path">
+
+        <button onclick="Add_Event()">Add</button>
+
+        <form method="post" action=website> 
+            <input class="hidden" type="text" name="name" value="Aseprite"/>
+            <input type="submit" value="Aseprite" />
+        </form>
+
+        <form method="post" action=website> 
+            <input class="hidden" type="text" name="name" value="Runelite"/>
+            <input type="submit" value="Runelite" />
+        </form>
+
+        <form method="post" action=website> 
+            <input class="hidden" type="text" name="name" value="Youtube"/>
+            <input type="submit" value="Youtube" />
+        </form>
+
+    </body>
+</html>
