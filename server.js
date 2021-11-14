@@ -11,7 +11,7 @@ const app = express();
 
 const server = http.createServer(function(request, response) {
   console.dir(request.param)
-
+  //
   if (request.method == 'POST') {
     console.log('POST')
     var body = ''
@@ -23,22 +23,32 @@ const server = http.createServer(function(request, response) {
       openProgram(body);
     })
   } else {
+    
     console.log('GET')
     response.writeHead(200, {'Content-Type': 'text/html'})
+
+    const tex = fs.readFileSync("data.txt",'utf8');
+    const lines = tex.split(/\r?\n/);
+    for(let i = 0 ; i < lines.length ; i++) {
+      let apps = lines[i].split("@")
+      response.write('<form method="post" action=website> <input class="hidden" type="text" name="name" value=' + lines[i] + ' /> <input type="submit" value=' + apps[0] + ' /> </form>');
+    }
+    //LoadApps(response);
     fs.createReadStream('index.html').pipe(response);
   }
-})
+});
 
 function openProgram(name)
 {
+
   let app = name.replace("name=", "").split("%40");
-  console.log(app[1]);
-  let path = app[1].replace(/%3A%5C%5C/g,":\\" + "\\").replace(/%5C%5C/g,'\\' + "\\");
+  
+  let path = app[1].replace(/%3A/g,":").replace(/%5C/g,'\\');
+  console.log(path);
 
   SaveApps(app[0],path);
   chld.exec(path);
-  
-  
+
 }
 const port = 3000
 const host = 'localhost'
@@ -47,17 +57,22 @@ console.log(`Listening at http://${host}:${port}`);
 
 function SaveApps(name,path)
 {
-  fs.appendFile("data.txt",name + "@" + path, (err) => {
-    if(err) 
-      console.log(err);
+  var stream = fs.createWriteStream("data.txt", {'flags': 'a'});
+  stream.once('open', function(fd) {
+    stream.write("\r\n" + name + "@" + path);
   });
 }
 
-function LoadApps()
+function LoadApps(res)
 {
-  fs.readFile("data.txt",'utf8', function(data,err) {
+  
+
+  fs.readFileSync("data.txt",'utf8', function(err,data) {
     if(err) {
       console.log(err);
+    } else {
+      let apps = data.split("@")
+      res.write('<form method="post" action=website> <input class="hidden" type="text" name="name" value=' + apps[1] + '/> <input type="submit" value=' + apps[0] + ' /> </form>');
     }
   });
 }

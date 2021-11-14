@@ -10,6 +10,7 @@
     <body>
     <script>
         console.log("S");
+        function test() {
         var website = "https://keycodess.loca.lt";
             for (let i = 0; i < localStorage.length; i++) {
 
@@ -32,6 +33,7 @@
                 newForm.appendChild(input1);
                 newForm.appendChild(input2);
             }
+        }
 
         function Add_Event(path) 
         {
@@ -57,7 +59,7 @@
             newForm.appendChild(input1);
             newForm.appendChild(input2);
 
-            localStorage.setItem(document.querySelector("#add_name").value, document.querySelector("#add_path").value)
+            //localStorage.setItem(document.querySelector("#add_name").value, document.querySelector("#add_path").value)
         }
     </script>
 
