@@ -64,9 +64,3 @@ You can use this to create shortcuts and access them from your phone or any devi
 ## Authors
 
 * **Claudiu Padure** - *Student* - [Claudiu Padure](https://github.com/zKlau/) - *Created the project*
-
-## Acknowledgements
-
-* []()
-* []()
-* []()
