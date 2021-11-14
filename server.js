@@ -29,10 +29,12 @@ const server = http.createServer(function(request, response) {
 
     const tex = fs.readFileSync("data.txt",'utf8');
     const lines = tex.split(/\r?\n/);
+    response.write('<input id="add_name" style="display: inline-block;" type="text" placeholder="Name"><input id="add_path" style="display: inline-block;" type="text" placeholder="C:\\path\\something.exe"><br><div><button onclick="Add_Event()">Add</button></div><br>')
     for(let i = 0 ; i < lines.length ; i++) {
       let apps = lines[i].split("@")
       response.write('<form method="post" action=website> <input class="hidden" type="text" name="name" value=' + lines[i] + ' /> <input type="submit" value=' + apps[0] + ' /> </form>');
     }
+   // response.write('<input id="add_name" style="display: inline-block;" type="text" placeholder="Name"><input id="add_path" style="display: inline-block;" type="text" placeholder="C:\\path"><br><div><button onclick="Add_Event()">Add</button></div><br>')
     //LoadApps(response);
     fs.createReadStream('index.html').pipe(response);
   }
