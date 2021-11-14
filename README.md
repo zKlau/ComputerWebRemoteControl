@@ -57,10 +57,6 @@ You can use this to create shortcuts and access them from your phone or any devi
 - Plugin support
 - Better interface
 
-### Creating A Pull Request
-
-
-
 ## Authors
 
 * **Claudiu Padure** - *Student* - [Claudiu Padure](https://github.com/zKlau/) - *Created the project*
