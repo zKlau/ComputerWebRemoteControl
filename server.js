@@ -8,7 +8,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 
-
+let del = false;
 const server = http.createServer(function(request, response) {
   console.dir(request.param)
   //
@@ -26,13 +26,20 @@ const server = http.createServer(function(request, response) {
     
     console.log('GET')
     response.writeHead(200, {'Content-Type': 'text/html'})
+    const appText = fs.readFileSync("data.txt",'utf8');
+    const appSplit = appText.split(/\r?\n/);
 
-    const tex = fs.readFileSync("data.txt",'utf8');
-    const lines = tex.split(/\r?\n/);
-    response.write('<input id="add_name" style="display: inline-block;" type="text" placeholder="Name"><input id="add_path" style="display: inline-block;" type="text" placeholder="C:\\path\\something.exe"><br><div><button onclick="Add_Event()">Add</button></div><br>')
+    const lines = appSplit.filter((value, index) => {
+      return appSplit.indexOf(value) === index;
+    });
+
+    response.write('<input id="add_name" style="display: inline-block;" type="text" placeholder="Name"> <input id="add_path" style="display: inline-block;" type="text" placeholder="C:\\path\\something.exe"><br> <div><button onclick="Add_Event()">Add</button></div><br> <form method="post" action=website> <input class="hidden" type="text" name="name" value="Delete"/><input type="submit" value="Delete"/> </form>')
     for(let i = 0 ; i < lines.length ; i++) {
-      let apps = lines[i].split("@")
-      response.write('<form method="post" action=website> <input class="hidden" type="text" name="name" value=' + lines[i] + ' /> <input type="submit" value=' + apps[0] + ' /> </form>');
+      if(lines[i] != "") {
+        let apps = lines[i].split("@")
+        response.write('<form method="post" > <input class="hidden" type="text" name="name" value=' + lines[i] + ' /><input type="submit" value=' + apps[0] + ' /> </form>');
+      }
+      
     }
    // response.write('<input id="add_name" style="display: inline-block;" type="text" placeholder="Name"><input id="add_path" style="display: inline-block;" type="text" placeholder="C:\\path"><br><div><button onclick="Add_Event()">Add</button></div><br>')
     //LoadApps(response);
@@ -42,14 +49,53 @@ const server = http.createServer(function(request, response) {
 
 function openProgram(name)
 {
+  console.log(name);
+  if(name == "name=Delete") 
+  {
+    del = true;
+  }
 
-  let app = name.replace("name=", "").split("%40");
+  if (name != "name=Delete" && del == false) 
+  {
+    let app = name.replace("name=", "").split("%40");
+    let path = app[1].replace(/%3A/g,":").replace(/%5C/g,'\\');
+    SaveApps(app[0],path);
+    chld.exec(path);
+  }
+
+  if(del == true && name != "name=Delete") 
+  {
+    let app = name.replace("name=", "").split("%40");
+    let path = app[1].replace(/%3A/g,":").replace(/%5C/g,'\\');
+
+    const appText = fs.readFileSync("data.txt",'utf8');
+    const appSplit = appText.split(/\r?\n/);
+    let removeApp = [];
+    appSplit.forEach(ele => {
+      if(ele == app[0] + "@" + path)
+      {
+        removeApp = appSplit.filter((e) => {
+          return e != app[0] + "@" + path;
+        });
+        }
+    });
+    console.log(removeApp);
+    fs.writeFile('data.txt','', function() {
+      console.log('done');
+    });
+    var stream = fs.createWriteStream("data.txt", {'flags': 'a'});
+    stream.once('open', function(fd) {
+      removeApp.forEach(ele => {
+        stream.write("\r\n" + ele);
+      });
+    });
+    del = false;
+
+  }
+
   
-  let path = app[1].replace(/%3A/g,":").replace(/%5C/g,'\\');
-  console.log(path);
 
-  SaveApps(app[0],path);
-  chld.exec(path);
+  
 
 }
 const port = 3000
