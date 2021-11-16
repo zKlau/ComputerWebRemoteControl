@@ -100,7 +100,7 @@
               }
     
               input,button {
-                width: 130%;
+                width: 130%; /* 130 */
                 border: none;
                 border-radius: 5px;
                 background: #fff;
@@ -135,32 +135,21 @@
         </style>
         <body>
         <script>
-            console.log("S");
-            function test() {
-            var website = "https://keycodess.loca.lt";
-                for (let i = 0; i < localStorage.length; i++) {
-    
-                    let newForm = document.createElement("form");
-                    newForm.setAttribute("method","post");
-                    newForm.setAttribute("action","website");
-    
-                    document.body.appendChild(newForm);
-    
-                    let input1 = document.createElement("input");
-                    input1.setAttribute("class","hidden");
-                    input1.setAttribute("type","text");
-                    input1.setAttribute("name","name");
-                    input1.setAttribute("value", localStorage.getItem(localStorage.key(i)) );
-    
-                    let input2 = document.createElement("input");
-                    input2.setAttribute("type","submit");
-                    input2.setAttribute("value", localStorage.key(i) );
-                    
-                    newForm.appendChild(input1);
-                    newForm.appendChild(input2);
-                }
+            window.setInterval(function() {
+                document.querySelector("body > form:nth-child(4) > input.hidden").value = "Add@" + document.querySelector("#add_name").value + "@" + document.querySelector("#add_path").value;
+            }, 1000)
+
+            function deleteTimer() 
+            {
+                let sec = 3;
+                let timer = setInterval(function() {
+                    --sec;
+                    if(sec <= 0)  {
+                        window.location.reload(true);
+                    }
+                },1000);
             }
-    
+
             function Add_Event(path) 
             {
                 let newForm = document.createElement("form");
@@ -185,41 +174,10 @@
                 newForm.appendChild(input1);
                 newForm.appendChild(input2);
     
-                //localStorage.setItem(document.querySelector("#add_name").value, document.querySelector("#add_path").value)
             }
         </script>
     </head>
-    
-        <!--
-        <input id="add_name" style="display: inline-block;" type="text" placeholder="Name">
-        <input id="add_path" style="display: inline-block;" type="text" placeholder="C:\\path">
         <br>
-        <div>
-            <button onclick="Add_Event()">Add</button>
-        </div>
-        <br>
-        
-        <form method="post" action=website> 
-            <input class="hidden" type="text" name="name" value="s"/>
-            <input type="submit" onclick="Add_Event()" value="Save" />
-        </form>
-        
-        <form method="post" action=website> 
-            <input class="hidden" type="text" name="name" value="Aseprite@D:\Aseprite\Aseprite.exe"/>
-            <input type="submit" value="Aseprite" />
-        </form>
-
-        <form method="post" action=website> 
-            <input class="hidden" type="text" name="name" value="Runelite"/>
-            <input type="submit" value="Runelite" />
-        </form>
-
-        <form method="post" action=website> 
-            <input class="hidden" type="text" name="name" value="Youtube"/>
-            <input type="submit" value="Youtube" />
-        </form>
-        -->
-        
         <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@1,600&display=swap" rel="stylesheet">
         <div class='social-links'>
 		    <div class='social-btn flex-center' id="website">

@@ -19,7 +19,6 @@ const server = http.createServer(function(request, response) {
       body += data
     })
     request.on('end', function() {
-      console.log();
       openProgram(body);
     })
   } else {
@@ -32,8 +31,7 @@ const server = http.createServer(function(request, response) {
     const lines = appSplit.filter((value, index) => {
       return appSplit.indexOf(value) === index;
     });
-
-    response.write('<input id="add_name" style="display: inline-block;" type="text" placeholder="Name"> <input id="add_path" style="display: inline-block;" type="text" placeholder="C:\\path\\something.exe"><br> <div><button onclick="Add_Event()">Add</button></div><br> <form method="post" action=website> <input class="hidden" type="text" name="name" value="Delete"/><input type="submit" value="Delete"/> </form>')
+    response.write('<input id="add_name" style="display: inline-block;" type="text" placeholder="Name"> <input id="add_path" style="display: inline-block;" type="text" placeholder="C:\\path\\something.exe"><br>  <form method="post" > <input class="hidden" type="text" name="name" value="Add" /><input type="submit" value="Add" onclick="deleteTimer()"/> </form>  <br> <form method="post" action=website> <input class="hidden" type="text" name="name" value="Delete"/><input type="submit" value="Delete" onclick="deleteTimer()"/> </form> <br>')
     for(let i = 0 ; i < lines.length ; i++) {
       if(lines[i] != "") {
         let apps = lines[i].split("@")
@@ -41,25 +39,32 @@ const server = http.createServer(function(request, response) {
       }
       
     }
-   // response.write('<input id="add_name" style="display: inline-block;" type="text" placeholder="Name"><input id="add_path" style="display: inline-block;" type="text" placeholder="C:\\path"><br><div><button onclick="Add_Event()">Add</button></div><br>')
-    //LoadApps(response);
     fs.createReadStream('index.html').pipe(response);
   }
 });
 
 function openProgram(name)
 {
+  let og = name;
+  if(name.includes("name=Add%40"))
+  {
+    name = name.replace("name=Add%40","");
+    let app = name.replace("name=", "").split("%40");
+    let path = app[1].replace(/%3A/g,":").replace(/%5C/g,'\\');
+    SaveApps(app[0],path);
+    
+  }
   console.log(name);
   if(name == "name=Delete") 
   {
     del = true;
   }
 
-  if (name != "name=Delete" && del == false) 
+  if (name != "name=Delete" && del == false && !og.includes("Add")) 
   {
     let app = name.replace("name=", "").split("%40");
     let path = app[1].replace(/%3A/g,":").replace(/%5C/g,'\\');
-    SaveApps(app[0],path);
+    //SaveApps(app[0],path);
     chld.exec(path);
   }
 

@@ -1,0 +1,3 @@
+aseprite@D:\Aseprite\Aseprite.exe
+test@D:\Aseprite\Aseprite.exe
+test1@D:\Aseprite\Aseprite.exe
