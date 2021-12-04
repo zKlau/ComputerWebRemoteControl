@@ -1,3 +1,4 @@
-aseprite@D:\Aseprite\Aseprite.exe
-test@D:\Aseprite\Aseprite.exe
-test1@D:\Aseprite\Aseprite.exe
+
+
+
+uhg,@D:\1Fonts\Insomnia^1.ttf

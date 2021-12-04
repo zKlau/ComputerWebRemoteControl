@@ -31,7 +31,8 @@ const server = http.createServer(function(request, response) {
     const lines = appSplit.filter((value, index) => {
       return appSplit.indexOf(value) === index;
     });
-    response.write('<input id="add_name" style="display: inline-block;" type="text" placeholder="Name"> <input id="add_path" style="display: inline-block;" type="text" placeholder="C:\\path\\something.exe"><br>  <form method="post" > <input class="hidden" type="text" name="name" value="Add" /><input type="submit" value="Add" onclick="deleteTimer()"/> </form>  <br> <form method="post" action=website> <input class="hidden" type="text" name="name" value="Delete"/><input type="submit" value="Delete" onclick="deleteTimer()"/> </form> <br>')
+    //response.write('')
+    response.write('<input id="add_name" style="display: inline-block;" type="text" placeholder="Name"> <input id="add_path" style="display: inline-block;" type="text" placeholder="C:\\path\\something.exe"><br>  <form method="post" > <input class="hidden" type="text" name="name" value="Add" /><input type="submit" value="Add" onclick="deleteTimer()"/> </form>  <br> <form method="post" action=website> <input class="hidden" type="text" name="name" value="Delete"/><input type="submit" value="Delete" onclick="deleteTimer()"/> </form> <br>    <form method="post" > <input class="hidden" type="text" name="name" value="BrowseFile" /><input type="submit" value="BrowseFile" /> </form> <br><br>')
     for(let i = 0 ; i < lines.length ; i++) {
       if(lines[i] != "") {
         let apps = lines[i].split("@")
@@ -46,12 +47,19 @@ const server = http.createServer(function(request, response) {
 function openProgram(name)
 {
   let og = name;
+  if(name == "name=BrowseFile")
+  {
+    chld.exec("scripts\\file_explorer.py")
+  }
   if(name.includes("name=Add%40"))
   {
     name = name.replace("name=Add%40","");
     let app = name.replace("name=", "").split("%40");
     let path = app[1].replace(/%3A/g,":").replace(/%5C/g,'\\');
-    SaveApps(app[0],path);
+    path = fs.readFileSync('path.txt', 'utf8')
+    console.log(path);
+    console.log(app);
+    SaveApps(app,path);
     
   }
   console.log(name);
@@ -60,11 +68,13 @@ function openProgram(name)
     del = true;
   }
 
-  if (name != "name=Delete" && del == false && !og.includes("Add")) 
+  if (name != "name=Delete" && del == false && !og.includes("Add") && name != "name=BrowseFile") 
   {
     let app = name.replace("name=", "").split("%40");
     let path = app[1].replace(/%3A/g,":").replace(/%5C/g,'\\');
     //SaveApps(app[0],path);
+    path = path.replace(/%5E/g,"^ ");
+    console.log("explorer" +' "' + path + '"');
     chld.exec(path);
   }
 
@@ -72,10 +82,14 @@ function openProgram(name)
   {
     let app = name.replace("name=", "").split("%40");
     let path = app[1].replace(/%3A/g,":").replace(/%5C/g,'\\');
-
+    path = path.replace(/%5E/g, "^")
     const appText = fs.readFileSync("data.txt",'utf8');
     const appSplit = appText.split(/\r?\n/);
     let removeApp = [];
+    let newApps = appSplit.filter(item => item !== app[0].replace(/%2C/g,",") + "@" + path);
+    removeApp = newApps;
+    console.log(app[0].replace(/%2C/g,",") + "@" + path);
+    /*
     appSplit.forEach(ele => {
       if(ele == app[0] + "@" + path)
       {
@@ -84,7 +98,11 @@ function openProgram(name)
         });
         }
     });
-    console.log(removeApp);
+    */
+   newApps.forEach(element => {
+     console.log(element);
+   });
+    //console.log(appSplit);
     fs.writeFile('data.txt','', function() {
       console.log('done');
     });
