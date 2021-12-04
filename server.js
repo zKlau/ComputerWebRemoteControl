@@ -32,7 +32,7 @@ const server = http.createServer(function(request, response) {
       return appSplit.indexOf(value) === index;
     });
     //response.write('')
-    response.write('<input id="add_name" style="display: inline-block;" type="text" placeholder="Name"> <input id="add_path" style="display: inline-block;" type="text" placeholder="C:\\path\\something.exe"><br>  <form method="post" > <input class="hidden" type="text" name="name" value="Add" /><input type="submit" value="Add" onclick="deleteTimer()"/> </form>  <br> <form method="post" action=website> <input class="hidden" type="text" name="name" value="Delete"/><input type="submit" value="Delete" onclick="deleteTimer()"/> </form> <br>    <form method="post" > <input class="hidden" type="text" name="name" value="BrowseFile" /><input type="submit" value="BrowseFile" /> </form> <br><br>')
+    response.write('<input id="add_name" style="display: inline-block;" type="text" placeholder="Name"> <br><form method="post" > <input class="hidden" type="text" name="name" value="BrowseFile" /><input type="submit" value="BrowseFile" /> </form> <br>  <form method="post" > <input class="hidden" type="text" name="name" value="Add" /><input type="submit" value="Add" onclick="deleteTimer()"/> </form>  <br> <form method="post" action=website> <input class="hidden" type="text" name="name" value="Delete"/><input type="submit" value="Delete" onclick="deleteTimer()"/> </form> <br>    <br><br>')
     for(let i = 0 ; i < lines.length ; i++) {
       if(lines[i] != "") {
         let apps = lines[i].split("@")
@@ -51,13 +51,15 @@ function openProgram(name)
   {
     chld.exec("scripts\\file_explorer.py")
   }
-  if(name.includes("name=Add%40"))
+  if(name.includes("name=Add"))
   {
-    name = name.replace("name=Add%40","");
+    console.log(name);
+    name = name.replace("name=Add","");
     let app = name.replace("name=", "").split("%40");
-    let path = app[1].replace(/%3A/g,":").replace(/%5C/g,'\\');
-    path = fs.readFileSync('path.txt', 'utf8')
-    console.log(path);
+    let path = fs.readFileSync('path.txt', 'utf8')
+    //path = app[1].replace(/%3A/g,":").replace(/%5C/g,'\\');
+    
+    //console.log(path);
     console.log(app);
     SaveApps(app,path);
     
@@ -89,16 +91,7 @@ function openProgram(name)
     let newApps = appSplit.filter(item => item !== app[0].replace(/%2C/g,",") + "@" + path);
     removeApp = newApps;
     console.log(app[0].replace(/%2C/g,",") + "@" + path);
-    /*
-    appSplit.forEach(ele => {
-      if(ele == app[0] + "@" + path)
-      {
-        removeApp = appSplit.filter((e) => {
-          return e != app[0] + "@" + path;
-        });
-        }
-    });
-    */
+
    newApps.forEach(element => {
      console.log(element);
    });

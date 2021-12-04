@@ -1,4 +1,6 @@
-
-
-
-uhg,@D:\1Fonts\Insomnia^1.ttf
+ase,@D:\Aseprite\Aseprite.exe
+denis@D:\Aseprite\Aseprite.exe
+@D:\Aseprite\Aseprite.exe
+@D:\Aseprite\Aseprite.exe
+,awwdawd@D:\Aseprite\Aseprite.exe
+,kiki@D:\Aseprite\Aseprite.exe
