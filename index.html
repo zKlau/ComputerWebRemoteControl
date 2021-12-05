@@ -128,8 +128,15 @@
                 color: #fff;
                 box-shadow: none;
               }
-    
-    
+              
+              /* Hide on Mobile */
+
+                @media (max-width: 480px) {
+                    .hide-mobile {
+                        display: none;
+                        max-height: 0; 
+                    }
+                }
     
         </style>
         <body>
@@ -148,32 +155,6 @@
                         window.location.reload(true);
                     }
                 },1000);
-            }
-
-            function Add_Event(path) 
-            {
-                let newForm = document.createElement("form");
-                newForm.setAttribute("method","post");
-                newForm.setAttribute("action","website");
-    
-                document.body.appendChild(newForm);
-    
-                let input1 = document.createElement("input");
-                input1.setAttribute("class","hidden");
-                input1.setAttribute("type","text");
-                input1.setAttribute("name","name");
-                let val =  document.querySelector("#add_name").value + "@" + (document.querySelector("#add_path").value).replaceAll("\\","\\"+"\\");
-                input1.setAttribute("value", val);
-                console.log(val);
-    
-                let input2 = document.createElement("input");
-                input2.setAttribute("type","submit");
-                input2.setAttribute("value", document.querySelector("#add_name").value );
-    
-    
-                newForm.appendChild(input1);
-                newForm.appendChild(input2);
-    
             }
         </script>
         

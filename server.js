@@ -10,10 +10,8 @@ const app = express();
 
 let del = false;
 const server = http.createServer(function(request, response) {
-  console.dir(request.param)
-  //
   if (request.method == 'POST') {
-    console.log('POST')
+    //console.log('POST')
     var body = ''
     request.on('data', function(data) {
       body += data
@@ -23,7 +21,7 @@ const server = http.createServer(function(request, response) {
     })
   } else {
     
-    console.log('GET')
+    //console.log('GET')
     response.writeHead(200, {'Content-Type': 'text/html'})
     const appText = fs.readFileSync("data.txt",'utf8');
     const appSplit = appText.split(/\r?\n/);
@@ -31,8 +29,7 @@ const server = http.createServer(function(request, response) {
     const lines = appSplit.filter((value, index) => {
       return appSplit.indexOf(value) === index;
     });
-    //response.write('')
-    response.write('<input id="add_name" style="display: inline-block;" type="text" placeholder="Name"> <br><form method="post" > <input class="hidden" type="text" name="name" value="BrowseFile" /><input type="submit" value="BrowseFile" /> </form> <br>  <form method="post" > <input class="hidden" type="text" name="name" value="Add" /><input type="submit" value="Add" onclick="deleteTimer()"/> </form>  <br> <form method="post" action=website> <input class="hidden" type="text" name="name" value="Delete"/><input type="submit" value="Delete" onclick="deleteTimer()"/> </form> <br>    <br><br>')
+    response.write('<input id="add_name" style="display: inline-block;" type="text" placeholder="Name"> <br><form method="post" class="hide-mobile" > <input class="hidden" type="text" name="name" value="BrowseFile" /><input type="submit" value="BrowseFile" /> </form> <br>  <form method="post" class="hide-mobile"> <input class="hidden" type="text" name="name" value="Add" /><input type="submit" value="Add" onclick="deleteTimer()"/> </form>  <br> <form method="post" action=website> <input class="hidden" type="text" name="name" value="Delete"/><input type="submit" value="Delete" onclick="deleteTimer()"/> </form> <br>    <br><br>')
     for(let i = 0 ; i < lines.length ; i++) {
       if(lines[i] != "") {
         let apps = lines[i].split("@")
@@ -46,7 +43,9 @@ const server = http.createServer(function(request, response) {
 
 function openProgram(name)
 {
+  console.log(decodeURIComponent(name));
   let og = name;
+  name = decodeURIComponent(name);
   if(name == "name=BrowseFile")
   {
     chld.exec("scripts\\file_explorer.py")
@@ -55,12 +54,9 @@ function openProgram(name)
   {
     console.log(name);
     name = name.replace("name=Add","");
-    let app = name.replace("name=", "").split("%40");
+    let app = name.replace("name=", "").split("@");
     let path = fs.readFileSync('path.txt', 'utf8')
-    //path = app[1].replace(/%3A/g,":").replace(/%5C/g,'\\');
-    
-    //console.log(path);
-    console.log(app);
+
     SaveApps(app,path);
     
   }
@@ -70,35 +66,38 @@ function openProgram(name)
     del = true;
   }
 
+  // Open 
   if (name != "name=Delete" && del == false && !og.includes("Add") && name != "name=BrowseFile") 
   {
-    let app = name.replace("name=", "").split("%40");
-    let path = app[1].replace(/%3A/g,":").replace(/%5C/g,'\\');
-    //SaveApps(app[0],path);
-    path = path.replace(/%5E/g,"^ ");
-    console.log("explorer" +' "' + path + '"');
+    let app = name.replace("name=", "").split("@");
+    let path = app[1];
+    path = path.replaceAll("^","^ ");
+    console.log(path);
     chld.exec(path);
   }
 
+  // Delete the shortcut that you click on by removing it from 'data.txt' and then reloading the page
   if(del == true && name != "name=Delete") 
   {
-    let app = name.replace("name=", "").split("%40");
-    let path = app[1].replace(/%3A/g,":").replace(/%5C/g,'\\');
-    path = path.replace(/%5E/g, "^")
+    let app = name.replace("name=", "").split("@");
+    let path = app[1];
+    path = path;
     const appText = fs.readFileSync("data.txt",'utf8');
     const appSplit = appText.split(/\r?\n/);
     let removeApp = [];
-    let newApps = appSplit.filter(item => item !== app[0].replace(/%2C/g,",") + "@" + path);
+    // the array contains every shortcut from 'data.txt' without the one that the user selected
+    let newApps = appSplit.filter(item => item !== app[0] + "@" + path);
     removeApp = newApps;
-    console.log(app[0].replace(/%2C/g,",") + "@" + path);
+    console.log(app[0] + "@" + path);
 
    newApps.forEach(element => {
      console.log(element);
    });
-    //console.log(appSplit);
     fs.writeFile('data.txt','', function() {
       console.log('done');
     });
+
+    // Rewrites the whole data.txt without the deleted shortcut
     var stream = fs.createWriteStream("data.txt", {'flags': 'a'});
     stream.once('open', function(fd) {
       removeApp.forEach(ele => {

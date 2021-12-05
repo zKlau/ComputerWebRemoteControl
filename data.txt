@@ -4,3 +4,9 @@ denis@D:\Aseprite\Aseprite.exe
 @D:\Aseprite\Aseprite.exe
 ,awwdawd@D:\Aseprite\Aseprite.exe
 ,kiki@D:\Aseprite\Aseprite.exe
+,testtt@D:\1TileSets\Nature^Platformer^Tileset^[16x16][FREE]^-^RottingPixels\RottingPixels.txt
+,1f1@D:\1^hour^1^life\OneLife_v198\binary.txt
+%40ass@D:\Aseprite\Aseprite.exe
+,readm@D:\Aseprite\README.txt
+,asdawdsawd@D:\1TileSets\Nature^Platformer^Tileset^[16x16][FREE]^-^RottingPixels\RottingPixels.txt
+,readme@D:\FileZilla^FTP^Client\GPL.html
