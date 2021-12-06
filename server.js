@@ -43,13 +43,15 @@ const server = http.createServer(function(request, response) {
 
 function openProgram(name)
 {
-  console.log(decodeURIComponent(name));
+  //console.log(decodeURIComponent(name));
   let og = name;
   name = decodeURIComponent(name);
   if(name == "name=BrowseFile")
   {
     chld.exec("scripts\\file_explorer.py")
   }
+
+  //Saves the new shortcut
   if(name.includes("name=Add"))
   {
     console.log(name);
@@ -57,10 +59,10 @@ function openProgram(name)
     let app = name.replace("name=", "").split("@");
     let path = fs.readFileSync('path.txt', 'utf8')
 
-    SaveApps(app,path);
+    SaveApps(app[1],path);
     
   }
-  console.log(name);
+  //console.log(name);
   if(name == "name=Delete") 
   {
     del = true;
@@ -72,7 +74,7 @@ function openProgram(name)
     let app = name.replace("name=", "").split("@");
     let path = app[1];
     path = path.replaceAll("^","^ ");
-    console.log(path);
+    //console.log(path);
     chld.exec(path);
   }
 
@@ -88,7 +90,7 @@ function openProgram(name)
     // the array contains every shortcut from 'data.txt' without the one that the user selected
     let newApps = appSplit.filter(item => item !== app[0] + "@" + path);
     removeApp = newApps;
-    console.log(app[0] + "@" + path);
+    //console.log(app[0] + "@" + path);
 
    newApps.forEach(element => {
      console.log(element);
@@ -107,39 +109,22 @@ function openProgram(name)
     del = false;
 
   }
-
-  
-
-  
-
 }
-const port = 3000
-const host = 'localhost'
-server.listen(port, host)
-console.log(`Listening at http://${host}:${port}`);
 
+//Adds the new shortcut to the "data.txt" file
 function SaveApps(name,path)
 {
+  console.log(name);
   var stream = fs.createWriteStream("data.txt", {'flags': 'a'});
   stream.once('open', function(fd) {
     stream.write("\r\n" + name + "@" + path);
-  });
-}
-
-function LoadApps(res)
-{
-  
-
-  fs.readFileSync("data.txt",'utf8', function(err,data) {
-    if(err) {
-      console.log(err);
-    } else {
-      let apps = data.split("@")
-      res.write('<form method="post" action=website> <input class="hidden" type="text" name="name" value=' + apps[1] + '/> <input type="submit" value=' + apps[0] + ' /> </form>');
-    }
   });
 }
 // shell.exec(".\\hostServer.bat");
 
 
 // lt --port 3000
+const port = 3000
+const host = 'localhost'
+server.listen(port, host)
+console.log(`Listening at http://${host}:${port}`);
