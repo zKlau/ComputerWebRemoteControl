@@ -36,7 +36,7 @@ const server = http.createServer(function(request, response) {
       return appSplit.indexOf(value) === index;
     });
     lines.filter(n => n)
-    response.write('<input id="add_name" style="display: inline-block;" type="text" placeholder="Name"> <br><form method="post" class="hide-mobile" > <input class="hidden" type="text" name="name" value="BrowseFile" /><input type="submit" value="BrowseFile" /> </form> <br>  <form method="post" class="hide-mobile"> <input class="hidden" type="text" name="name" value="Add" /><input type="submit" value="Add" onclick="deleteTimer()"/> </form>  <br> <form method="post" action=website> <input class="hidden" type="text" name="name" value="Delete"/><input type="submit" value="Delete" onclick="deleteTimer()"/> </form> <br>    <br><br>')
+    response.write('<input id="add_name" style="display: inline-block;" type="text" placeholder="Name"> <br> <div class="same-line"><form method="post" class="hide-mobile main-button" > <input class="hidden" type="text" name="name" value="BrowseFile" /><input type="submit" value="BrowseFile" /> </form> <br>  <form method="post" class="hide-mobile main-button"> <input class="hidden" type="text" name="name" value="Add" /><input type="submit" value="Add" onclick="deleteTimer()"/> </form>  <br> <form method="post" action=website class="main-button"> <input class="hidden" type="text" name="name" value="Delete"/><input type="submit" value="Delete" onclick="deleteTimer()"/> </form> </div><br>    <br><br>')
     response.write("<table> <tr>")
     var lineNumber = 0;
 

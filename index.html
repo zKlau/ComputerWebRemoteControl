@@ -8,13 +8,20 @@
             input {
                 border-width: 4px;
             }
+            .main-button {
+                padding: 10px;
+            }
+            .same-line {
+                display: flex;
+                justify-content: space-between;
+            }
             body {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
                 min-height: 100vh;
-                background: rgb(46, 43, 43);
+                background: #0D1F2D;
             }
             * {
                 margin: 0;
@@ -43,8 +50,8 @@
                 font-family: 'Titillium Web', sans-serif;
                 color: #333;
                 border-radius: 10px;
-                box-shadow: 0px 10px 10px rgba(0,0,0,0.1);
-                background: white;
+                box-shadow: 0px 10px 10px #9EA3B0;
+                background: #fff;
                 margin: 5px;
                 transition: 1s;
             }
@@ -90,11 +97,11 @@
                   background: radial-gradient(circle at center, rgba( 255, 125, 125, 0.5 ) 49%, #fff 50%, #fff 100%);
                 }
                 75% {
-                  background: radial-gradient(circle at center, rgba( 255, 125, 125, 0.8 ) 74%, #fff 75%, #fff 100%);
+                  background: radial-gradient(circle at center, #E4C3AD 74%, #fff 75%, #fff 100%);
                 }
                 100% {
                   color: #fff;
-                  background: radial-gradient(circle at center, #f88 99%, #fff 100%, #fff 100%);
+                  background: radial-gradient(circle at center, #E4C3AD 99%, #fff 100%, #fff 100%);
                 }
               }
     
@@ -106,7 +113,7 @@
                 font-weight: bold;
                 font-size: 1.1em;
                 color: #666;
-                box-shadow: 0 6px 6px rgb(20, 20, 20);
+                box-shadow: 0 6px 6px #9EA3B0;
                 outline: none;
               }
 
@@ -122,9 +129,8 @@
                   margin-top: 10px;
               }
               button:hover, input[type = submit]:hover {
-                /* set time duration to your needs */
                 animation: gradient 100ms;
-                background: #f88;
+                background: #E4C3AD;
                 color: #fff;
                 box-shadow: none;
               }
@@ -142,6 +148,7 @@
                     padding: 2%;
                 }
                 table {
+                    margin-left: 5;
                     width: 20%;
                 }
                 #formPost {
@@ -155,7 +162,52 @@
                     word-wrap: break-word; /* Internet Explorer 5.5+ */
                     
                 }
-    
+                input {
+                  align-items: center;
+                  background-color: #FFFFFF;
+                  border: 1px solid rgba(0, 0, 0, 0.1);
+                  border-radius: .25rem;
+                  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+                  box-sizing: border-box;
+                  color: rgba(0, 0, 0, 0.85);
+                  cursor: pointer;
+                  display: inline-flex;
+                  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+                  font-size: 16px;
+                  font-weight: 600;
+                  justify-content: center;
+                  line-height: 1.25;
+                  margin: 0;
+                  min-height: 3rem;
+                  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+                  position: relative;
+                  text-decoration: none;
+                  transition: all 250ms;
+                  user-select: none;
+                  -webkit-user-select: none;
+                  touch-action: manipulation;
+                  vertical-align: baseline;
+                  width: auto;
+                }
+
+                input:hover,
+                input:focus {
+                  border-color: rgba(0, 0, 0, 0.15);
+                  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+                  color: rgba(0, 0, 0, 0.65);
+                }
+
+                input:hover {
+                  transform: translateY(-1px);
+                }
+
+                input:active {
+                  background-color: #F0F0F1;
+                  border-color: rgba(0, 0, 0, 0.15);
+                  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+                  color: rgba(0, 0, 0, 0.65);
+                  transform: translateY(0);
+                }
         </style>
         <body>
             <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
