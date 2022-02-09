@@ -1,7 +1,6 @@
 const http = require('http')
-var child = require('child_process').execFile;
 const chld = require('child_process');
-const shell = require('shelljs');
+var exec = require('child_process').exec;
 const fs = require('fs');
 const useragent = require('express-useragent');
 
@@ -71,11 +70,13 @@ const server = http.createServer(function(request, response) {
 function openProgram(name)
 {
   
+  console.log(name)
   let og = name;
   name = decodeURIComponent(name);
   if(name == "name=BrowseFile")
   {
-    chld.exec("scripts\\file_explorer.py")
+    console.log("File Select")
+    exec('py scripts\\file_explorer.py');
   }
 
   //Saves the new shortcut
@@ -85,7 +86,9 @@ function openProgram(name)
     name = name.replace("name=Add","");
     let app = name.replace("name=", "").split("@");
     let path = fs.readFileSync('path.txt', 'utf8')
-
+    
+    console.log(app)
+    
     SaveApps(app[1],path);
     
   }
@@ -100,8 +103,9 @@ function openProgram(name)
   {
     let app = name.replace("name=", "").split("@");
     let path = app[1];
-    path = path.replaceAll("^","^ ");
-    chld.exec(path);
+    path = path.replaceAll("^","^");
+    //chld.execSync(path)
+    exec(path)
   }
 
   // Delete the shortcut that you click on by removing it from 'data.txt' and then reloading the page
@@ -146,7 +150,7 @@ function SaveApps(name,path)
     stream.write("\r\n" + name + "@" + path);
   });
 }
-// shell.exec(".\\hostServer.bat");
+// chld.exec(".\\hostServer.bat");
 
 
 // lt --port 3000

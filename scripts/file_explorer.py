@@ -8,6 +8,7 @@ def browseFiles():
     filename = filedialog.askopenfilename(initialdir = "/",
                                           title = "Select a File",
                                           )
+    root.resizable(0,0)
     path = filename.replace("/","\\")
     path = path.replace(" ","^")
     with open("path.txt", "w") as f:
